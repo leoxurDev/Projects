@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben 10 Alien Database</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login / Register Section -->
+    <div id="loginSection" class="login-container">
+        <div class="login-card">
+            <!-- Omnitrix emblem -->
+            <div class="omnitrix-logo">
+                <div class="omnitrix-outer">
+                    <div class="omnitrix-inner">
+                        <div class="omnitrix-core"></div>
+                    </div>
+                </div>
+            </div>
+            <h1>Ben 10 Alien Database</h1>
+            <p class="login-subtitle">Access the complete alien collection</p>
+
+            <!-- Tab buttons -->
+            <div class="login-tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" autocomplete="off" novalidate>
+                <div class="form-group">
+                    <label for="loginUsername" class="form-label">Username</label>
+                    <input type="text" id="loginUsername" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" autocomplete="off" novalidate>
+                <div class="form-group">
+                    <label for="registerUsername" class="form-label">Username</label>
+                    <input type="text" id="registerUsername" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword" class="form-label">Password</label>
+                    <input type="password" id="registerPassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full-width">Create Account</button>
+            </form>
+
+            <!-- Authentication feedback -->
+            <div id="authMessage" class="auth-message hidden"></div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="hidden">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <div class="nav-left">
+                    <div class="omnitrix-mini">
+                        <div class="omnitrix-core-mini"></div>
+                    </div>
+                    <h2>Ben 10 Database</h2>
+                </div>
+                <div class="nav-right">
+                    <span id="welcomeUser" class="user-welcome"></span>
+                    <button id="logoutBtn" class="btn btn--outline btn--sm">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Controls -->
+                <div class="controls-section">
+                    <div class="search-filter-controls">
+                        <div class="search-group">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search aliens...">
+                        </div>
+                        <div class="filter-group">
+                            <select id="seriesFilter" class="form-control">
+                                <option value="">All Series</option>
+                                <option value="Original">Original</option>
+                                <option value="Alien Force">Alien Force</option>
+                                <option value="Ultimate Alien">Ultimate Alien</option>
+                                <option value="Omniverse">Omniverse</option>
+                            </select>
+                        </div>
+                        <div class="sort-group">
+                            <select id="sortSelect" class="form-control">
+                                <option value="name">Sort by Name</option>
+                                <option value="series">Sort by Series</option>
+                                <option value="species">Sort by Species</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="action-controls">
+                        <button id="addAlienBtn" class="btn btn--primary">Add New Alien</button>
+                    </div>
+                </div>
+
+                <!-- Aliens Grid -->
+                <div id="aliensGrid" class="aliens-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Alien Detail Modal -->
+    <div id="alienDetailModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3 id="alienDetailName">Alien Name</h3>
+                <button class="modal-close" aria-label="Close detail modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alien-detail-content">
+                    <div class="alien-detail-left">
+                        <div class="alien-3d-viewer">
+                            <div id="alien3DModel" class="model-3d">
+                                <!-- No external image assets available -->
+                                <div id="alienDetailImage" class="model-image"></div>
+                                <div class="model-controls">
+                                    <button class="rotate-btn" data-axis="x">Rotate X</button>
+                                    <button class="rotate-btn" data-axis="y">Rotate Y</button>
+                                    <button class="rotate-btn" data-axis="z">Rotate Z</button>
+                                    <button class="reset-btn">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alien-detail-right">
+                        <div class="alien-info">
+                            <div class="info-item"><strong>Series:</strong> <span id="alienDetailSeries"></span></div>
+                            <div class="info-item"><strong>Species:</strong> <span id="alienDetailSpecies"></span></div>
+                            <div class="info-item"><strong>Planet:</strong> <span id="alienDetailPlanet"></span></div>
+                            <div class="info-item"><strong>Power Level:</strong> <span id="alienDetailPower"></span></div>
+                            <div class="info-item description">
+                                <strong>Abilities:</strong>
+                                <p id="alienDetailAbilities"></p>
+                            </div>
+                        </div>
+                        <div class="alien-actions">
+                            <button id="editAlienBtn" class="btn btn--outline">Edit Alien</button>
+                            <button id="deleteAlienBtn" class="btn btn--error">Delete Alien</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add / Edit Alien Modal -->
+    <div id="alienFormModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="alienFormTitle">Add New Alien</h3>
+                <button class="modal-close" aria-label="Close form modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="alienForm" novalidate>
+                    <input type="hidden" id="alienId">
+                    <div class="form-group">
+                        <label for="alienName" class="form-label">Name</label>
+                        <input type="text" id="alienName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alienSeries" class="form-label">Series</label>
+                        <select id="alienSeries" class="form-control" required>
+                            <option value="">Select Series</option>
+                            <option value="Original">Original</option>
+                            <option value="Alien Force">Alien Force</option>
+                            <option value="Ultimate Alien">Ultimate Alien</option>
+                            <option value="Omniverse">Omniverse</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="alienSpecies" class="form-label">Species</label>
+                        <input type="text" id="alienSpecies" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alienPlanet" class="form-label">Planet</label>
+                        <input type="text" id="alienPlanet" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alienPower" class="form-label">Power Level (1-10)</label>
+                        <input type="number" id="alienPower" class="form-control" min="1" max="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alienAbilities" class="form-label">Abilities</label>
+                        <textarea id="alienAbilities" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--secondary modal-close">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Save Alien</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner (optional, for future async XHR) -->
+    <div id="loadingSpinner" class="loading-spinner hidden">
+        <div class="omnitrix-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-core"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

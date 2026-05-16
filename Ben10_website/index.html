@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben 10 Aliens Gallery - Ultimate Collection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <h1 class="header__title">
+                    <span class="ben-text">BEN</span>
+                    <span class="ten-text">10</span>
+                    <span class="aliens-text">ALIENS</span>
+                </h1>
+                <div class="header__actions">
+                    <button class="btn btn--primary create-alien-btn" id="createAlienBtn">
+                        <span>+ Create Alien</span>
+                    </button>
+                    <div class="header__stats">
+                        <span class="stat-item">
+                            <span class="stat-number" id="totalAliensCount">44</span>
+                            <span class="stat-label">Total Aliens</span>
+                        </span>
+                        <span class="stat-item">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Series</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Bar -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input form-control" placeholder="Search aliens by name...">
+                <div class="search-icon">🔍</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar__header">
+                <h3>Filter by Series</h3>
+            </div>
+            <nav class="sidebar__nav">
+                <button class="filter-btn active" data-series="all">
+                    <span class="filter-label">All Series</span>
+                    <span class="filter-count" id="allCount">44</span>
+                </button>
+                <button class="filter-btn" data-series="classic">
+                    <span class="filter-label">Classic</span>
+                    <span class="filter-count">10</span>
+                </button>
+                <button class="filter-btn" data-series="alienforce">
+                    <span class="filter-label">Alien Force</span>
+                    <span class="filter-count">10</span>
+                </button>
+                <button class="filter-btn" data-series="ultimatealien">
+                    <span class="filter-label">Ultimate Alien</span>
+                    <span class="filter-count">10</span>
+                </button>
+                <button class="filter-btn" data-series="omniverse">
+                    <span class="filter-label">Omniverse</span>
+                    <span class="filter-count">10</span>
+                </button>
+                <button class="filter-btn" data-series="reboot">
+                    <span class="filter-label">Reboot</span>
+                    <span class="filter-count">4</span>
+                </button>
+                <button class="filter-btn" data-series="custom">
+                    <span class="filter-label">Custom</span>
+                    <span class="filter-count" id="customCount">0</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <div class="content__header">
+                <h2 id="sectionTitle">All Aliens</h2>
+                <p id="sectionDescription">Complete collection of Ben 10 aliens from all series</p>
+            </div>
+
+            <!-- Loading Animation -->
+            <div class="loading" id="loadingIndicator">
+                <div class="omnitrix-loader">
+                    <div class="omnitrix-core"></div>
+                    <div class="omnitrix-ring"></div>
+                </div>
+                <p>Loading Aliens...</p>
+            </div>
+
+            <!-- Aliens Grid -->
+            <div class="aliens-grid" id="aliensGrid">
+                <!-- Aliens will be populated by JavaScript -->
+            </div>
+
+            <!-- No Results -->
+            <div class="no-results hidden" id="noResults">
+                <div class="no-results__icon">🔍</div>
+                <h3>No aliens found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Alien Details Modal -->
+    <div class="modal-overlay hidden" id="modalOverlay">
+        <div class="modal">
+            <button class="modal__close" id="modalClose">✕</button>
+            <div class="modal__content">
+                <div class="modal__image" id="modalImage">
+                    <img id="modalImageElement" src="" alt="" />
+                </div>
+                <div class="modal__details">
+                    <h2 class="modal__name" id="modalName"></h2>
+                    <div class="modal__series-badge" id="modalSeries"></div>
+                    <div class="modal__info">
+                        <div class="info-item">
+                            <span class="info-label">Species:</span>
+                            <span class="info-value" id="modalSpecies"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Home Planet:</span>
+                            <span class="info-value" id="modalPlanet"></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Powers:</span>
+                            <span class="info-value" id="modalPowers"></span>
+                        </div>
+                    </div>
+                    <div class="modal__actions" id="modalActions">
+                        <!-- Delete button will be added here for custom aliens -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Alien Modal -->
+    <div class="modal-overlay hidden" id="createAlienModal">
+        <div class="modal modal--large">
+            <button class="modal__close" id="createModalClose">✕</button>
+            <div class="modal__content">
+                <h2 class="modal__title">Create New Alien</h2>
+                <form class="create-alien-form" id="createAlienForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="alienName">Alien Name *</label>
+                            <input type="text" id="alienName" class="form-control" required placeholder="e.g., Flamemaster">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="alienSpecies">Species *</label>
+                            <input type="text" id="alienSpecies" class="form-control" required placeholder="e.g., Pyronite">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="alienPlanet">Home Planet *</label>
+                            <input type="text" id="alienPlanet" class="form-control" required placeholder="e.g., Pyros">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="alienSeries">Series *</label>
+                            <select id="alienSeries" class="form-control" required>
+                                <option value="">Select Series</option>
+                                <option value="classic">Classic</option>
+                                <option value="alienforce">Alien Force</option>
+                                <option value="ultimatealien">Ultimate Alien</option>
+                                <option value="omniverse">Omniverse</option>
+                                <option value="reboot">Reboot</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="alienPowers">Powers & Abilities *</label>
+                        <textarea id="alienPowers" class="form-control" rows="3" required placeholder="Describe the alien's powers and abilities..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="alienImage">Alien Image (Optional)</label>
+                        <input type="file" id="alienImage" class="form-control" accept="image/*">
+                        <small class="form-help">Upload an image of your alien (JPG, PNG, GIF)</small>
+                    </div>
+                    <div class="image-preview hidden" id="imagePreview">
+                        <img id="previewImage" src="" alt="Preview">
+                        <button type="button" class="btn btn--secondary btn--sm" id="removeImage">Remove Image</button>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--secondary" id="cancelCreate">Cancel</button>
+                        <button type="submit" class="btn btn--primary">Create Alien</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay hidden" id="deleteConfirmModal">
+        <div class="modal modal--small">
+            <div class="modal__content">
+                <h3 class="delete-modal__title">Delete Alien</h3>
+                <p class="delete-modal__message">Are you sure you want to delete <strong id="deleteAlienName"></strong>? This action cannot be undone.</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn--secondary" id="cancelDelete">Cancel</button>
+                    <button type="button" class="btn btn--danger" id="confirmDelete">Delete Alien</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <p>&copy; 2025 Ben 10 Aliens Gallery. Unofficial fan database.</p>
+                <p>All characters and content belong to Cartoon Network and Man of Action.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
